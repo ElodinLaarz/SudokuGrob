@@ -1,0 +1,221 @@
+\documentclass{beamer}
+\usetheme{Boadilla}
+\title{Sudoku: Counting boards}
+\subtitle{Gr\" obner Basis Representations of Sudoku by E.Arnold, S.Lucas, and L.Taalman}
+\author{C. Geiger and  G. Zelaya}
+\institute{University of Washington, Seattle}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\hh}{\mathfrak{h}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\D}{\mathbb{D}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\M}{\mathbb{M}}
+\newcommand{\B}{\mathbb{B}}
+
+\newcommand{\DD}{\mathcal{D}}
+\newcommand{\EE}{\mathcal{E}}
+
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\af}{\mathfrak{a}}
+\newcommand{\pp}{\mathfrak{p}}
+\newcommand{\qq}{\mathfrak{q}}
+\newcommand{\rr}{\mathfrak{r}}
+\newcommand{\ff}{\mathfrak{f}}
+
+\newcommand{\mm}{\mathfrak{m}}
+\newcommand{\nn}{\mathfrak{n}}
+
+\newcommand{\wf}{\mathcal{P}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\GG}{\mathcal{G}}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\la}{\leftarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\La}{\Leftarrow}
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\Lra}{\Leftrightarrow}
+
+\newcommand{\da}{\downarrow}
+\newcommand{\ua}{\uparrow}
+\newcommand{\raa}[1]{\overset{#1}{\longrightarrow}}
+\newcommand{\laa}[1]{\overset{#1}{\longleftarrow}}
+\newcommand{\lraa}[1]{\overset{#1}{\longleftrightarrow}}
+\newcommand{\hra}{\hookrightarrow}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\begin{document}
+\maketitle
+
+\begin{frame}
+\frametitle{Shidoku}
+\framesubtitle{A friendly simplified and illustrative version of Sudoku}
+\begin{itemize}
+\item A \textbf{Region} of a Shidoku grid is either a complete row, a complete column, or a $2\times 2$ corner sub-matrix.
+
+\item A \textbf{Board of Shidoku} is a $4 \times 4$ matrix with all the integers $1,2,3,4$ in region. \\
+
+\item A \textbf{Puzzle} is an array incompletely filled that can be completely filled uniquely. In the following solutions, a puzzle involves extra equations of the form \" variable =  actual value \", which leads to a unique solution of the rest of variables. 
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Different Shidoku Boards}
+\framesubtitle{Counting Methods}
+%\onslide<1->
+\begin{alertblock}{The Sum-Product Shidoku-System: $40-16$}
+\begin{itemize}
+\item $16$ variables: one per cell with values in $\{1,2,3,4\}$.
+\item $16$ equations: one per variable $(a-1)(a-2)(a-3)(a-4) = 0$.
+\item $24$ equations: two per region $a + b + c + d = 10$ and $abcd = 24$.
+\end{itemize}
+\end{alertblock}
+
+%\onslide<2->
+\begin{alertblock}{The roots of unity Shidoku-System $88-16$}
+\begin{itemize}
+\item $16$ variables: one per cell with values in $\{1,\zeta_4,\zeta_4^2,\zeta_4^3\}$.
+\item $16$ equations: one per variable $w^4 - 1 = 0$.
+\item $72$ equations: one per pair of variables in the same region: $\frac{w^4-x^4}{w-x} = 0$.
+\end{itemize}
+\end{alertblock}
+
+%\onslide<3->
+\begin{alertblock}{The Boolean Shidoku-System $136-64$}
+\begin{itemize}
+\item $64$ equations: one per variable $w_k(w_k-1) = 0$: $w_i = 1 \Lra w = i$.
+\item $16$ equations: one per cell $w_1 + w_2 + w_3 + w_4 = 1$.
+\item $56$ equations: one per pair of cells in the same region: $x_1w_1 + x_2y_2 + x_3y_3 + x_4y_4 = 0$.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Different Sudoku Boards}
+\framesubtitle{Can these methods generalize?}
+\begin{alertblock}{The Sum-Product Sudoku-System: $135-81$}
+Does $a+b+c+d+e+f+g+h+i = 45$ and $abcdefghi = 9!$ have a unique solution up to permutations? No. Replace them by:
+\[(w+2)(w+1)\prod_{i=1}^7 (w-i) = 0\]
+\[\sum_{k=1}^9 x_k = 25\]
+\[\prod_{k=1}^9 x_k = 2*7!\]
+\end{alertblock}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Different Sudoku Boards}
+\framesubtitle{Can these methods generalize?}
+\begin{alertblock}{The roots of unity Sudoku-system $972-81$}
+\[w^9 = 1 \]
+\[\frac{w^9-x^9}{w-x} = 0\]
+\end{alertblock}
+This method can be understood as a graph: Every cell is a vertex, and two vertices are joint by an edge if and only if the cells are in the same region. In how many ways can we color the vertices with 9 colors so that adjacent vertices have different colors?
+\end{frame}
+
+\begin{frame}
+\frametitle{Different Sudoku Boards}
+\framesubtitle{Can these methods generalize?}
+\begin{alertblock}{The Boolean Sudoku-System $1782-729$}
+\[w_k(w_k-1) = 0\]
+Variables are idempotents: $w_k^2 = w_k$.
+\[\sum_{i=1}^9 w_i = 1\]
+\[\sum_{i=1}^9 x_iw_i = 0\]
+\end{alertblock}
+
+Bernasconi [2] and Sato [3] suggest that the computational cost of finding Gr\" obner bases in the Boolean case is greatly reduced. 
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Related Problems}
+\[\]
+\begin{Theorem}[The Four Color Problem -1976 by K. Appel and W. Haken]
+Given any separation of a \textit{plane} into contiguous regions, producing a figure called a \textbf{map}, no more than four colors are required to color the regions of the map so that no two adjacent regions have the same color.
+\end{Theorem}
+\[\]
+In 2005, it was proven by G. Gonthier [4] using theorem proving/interactive theorem software.\\
+\end{frame}
+
+\begin{frame}
+\frametitle{Also Related}
+The \textbf{Exact Cover} problem: Cover the universe with disjoint subsets in a given subsets of the power set of the universe.\\
+
+The matrix version: Given a matrix $A$ with entries $0$'s and $1$'s, does it have a set of rows containing exactly one $1$ in each column?
+
+\begin{Theorem}[Algorithm X - by D. Knuth, Dancing Links {[5]}]
+If $A$ is empty, the problem is solved; terminate successfully.\\
+Otherwise choose a column $c$ (deterministically);\\
+Choose a row $r$ with $A[r,c] = 1$ (nondeterministically);\\
+Include $r$ in the partial solution;\\
+For each column $j$ with $A[r,j] = 1$:\\ 
+\tab For each row $i$ with $A[i,j] = 1:$\\
+\tab \tab delete row $i$ from matrix $A$;\\
+\tab Delete column $j$ from $A$;\\
+Repeat this algorithm recursively on the reduced matrix $A$. 
+\end{Theorem}
+\end{frame}
+
+\begin{frame}
+\frametitle{Results}
+
+\begin{enumerate}
+\item The authors used Maple 12 for the computations on Shidoku boards, which already requires great computer power! 
+
+\item There are $288$ different boards of Shidoku.
+
+\item B.Felgenhauer and F.Jarvis [6] showed that there are $6.67 \times 10^{21}$ different Sudoku boards.
+
+
+\item Russell and Jarvis [7] showed that there are $5.47 \times 10^9$ essentially different non-equivalent boards. 
+\begin{itemize}
+\item Relabeling: Permuting $\{1,\ldots, 9\}$ in a given solution. This divides by $9!$ the previous result. 
+\item Lexicographical reduction: The first row of the Top-middle and Top-Right $3 \times 3$ regions are ordered increasingly. The first column of the Middle-Left and Lower-Left $3\times 3$ regions are ordered increasingly. This divides by $72^2$ the previous result. 
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Further Problems}
+The \textbf{Minimum Givens} Problem, which aks for the smallest number of given values that can completely determine a Sudoku board. It is conjectured that it is $17$. [8]
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Bibliography}
+\begin{itemize}
+\scriptsize{\item [{[1]}] Arnold E., Lucas S., Taalman L.: \textbf{Gr\" obner Basis Representations of Sudoku.} \textit{The College Mathematics Journal} 41(2): 101-112, 2010. DOI:
+10.4169/074683410x480203. 
+\item [{[2]}] A. Bernasconi, B. Codenotti, V. Crespi \& G. Resta, \textbf{Computing Groebner bases in the Boolean setting with applications to counting}, in: G. Italiano \& S. Orlando, eds., \textit{Proceedings of the Workshop on Algorithm Engineering (WAE’97)}, University of Venice, Venice, September 11-13, 1997, 209–218.
+\item [{[3]}] Y. Sato, A. Nagai \& S. Inoue, \textbf{On the Computation of Elimination Ideals of Boolean Polynomial Rings}, in: D. Kapur, Ed., \textit{Computer Mathematics: 8th Asian Symposium, ASCM 2007, Singapore, December 15-17, 2007, Revised and invited Papers}, Lecture Notes In Artificial Intelligence, 5081, SpringerVerlag, Berlin, 2008, 334–348.
+\item[{[4]}] Gonthier, G. (2005). \textbf{A computer-checked proof of the four colour theorem} http://www.research.microsoft.com/*gonthier/4colproof.pdf
+\item [{[5]}] D.E. Knuth, \textbf{Dancing Links}, in: J. Davies, B. Roscoe \& J. Woodcock, \textit{Millennial Perspectives in Computer Science: Processings of the 1999 Oxford-Microsoft Symposium in Honour of Sir Tony Hoare}, Palgrave, 2000, 187–
+214.
+\item [{[6]}]  B. Felgenhauer \& F. Jarvis, \textbf{Mathematics of Sudoku I}, \textit{Mathematical Spectrum}, 39, 2006, 15–22
+\item [{[7]}] E. Russell \& F. Jarvis, \textbf{Mathematics of Sudoku II}, \textit{Mathematical Spectrum}, 39, 2006, 54–58.
+\item [{[8]}] Forrow, Aden, and John R. Schmitt. "\textbf{Approaching the minimum number of clues Sudoku problem via the polynomial method}." (2013).
+}\end{itemize}
+\end{frame}
+
+\end{document}
