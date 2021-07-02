@@ -1,0 +1,38 @@
+\documentclass{article}
+
+% set font encoding for PDFLaTeX or XeLaTeX
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{fontspec}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+\fi
+\usepackage{setspace}
+
+% used in maketitle
+\title{Project Proposal}
+\author{Caleb Geiger}
+
+% Enable SageTeX to run SageMath code right inside this LaTeX file.
+% documentation: http://mirrors.ctan.org/macros/latex/contrib/sagetex/sagetexpackage.pdf
+% \usepackage{sagetex}
+
+\begin{document}
+\maketitle
+
+\section{Proposed Ideas}
+\subsection{Gr\" obner bases and Shidoku boards}
+As the general case of a $9\times 9$ Sudoku board is computationally intensive to the point that answers to certain questions seem possibly unobtainable with currently implemented systems, the next smallest case of a $4\times 4$ board, known as a Shidoku board, is often considered. Using Gr\" obner bases, one can compute both solutions to Shidoku boards, as well as counting the number of possible distinct Shidoku boards.\\
+We will attempt to formally explain these solutions and discuss how they can be applied, although perhaps computationally infeasibly, to the general case of the Sudoku board.
+\subsection{Sudoku and Boolean Gr\" obner bases}
+As the general case of Sudoku boards is computationally intensive, and perhaps solutions to smaller boards are not quite satisfying, our second proposal is to efficiently answer the questions of 1.1. in the specific case where our Sudoku board admits a boolean Gr\" obner basis.
+
+\section{References}
+1. Cox, David A. author. John B. Little, author.; Donal O'Shea, author. Ideals, varieties, and algorithms : an introduction to computational algebraic geometry and commutative algebra. 2015 Cham : Springer.\\
+2. Arnold, Elizabeth, et al. Gr\" obner Basis Representations of Sudoku. March 26, 2009.\\
+3. Sato, Yosuke, et al. Boolean Gr\" obner Bases and Sudoku. http://www.mi.kagu.tus.ac.jp/~inoue/BGSet.old/sudoku.pdf
+
+
+\end{document}

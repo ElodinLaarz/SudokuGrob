@@ -1,0 +1,70 @@
+\documentclass[12pt]{amsart}
+
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{xspace}
+\usepackage[psamsfonts]{amssymb}
+\usepackage[latin1]{inputenc}
+\usepackage{graphicx,color}
+\usepackage[curve]{xypic} 
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+
+\begin{document}
+
+\title{Gr\" obner Bases and Sudoku Puzzles}
+
+\author{Caleb Geiger}
+
+\date{\today}
+
+\begin{abstract}
+As there are 6,670,903,752,021,072,936,960 distinct Sudoku boards, as computed by Felgenhauer and Jarvis [1], we instead consider the next smallest case of a $4\times 4$ board, which we shall call a Shidoku board [2]. Using Gr\" obner bases, one can compute both solutions to Shidoku boards, as well as counting the number of possible distinct Shidoku boards.\\
+We will formally explain these solutions with the idea that, although perhaps computationally intensively and with minor tweaks, they can be generalized to the case of the Sudoku board.
+\end{abstract}
+
+\maketitle
+
+\section{Sudoku and Shidoku}
+To begin, we will give a brief overview of how the games of Sudoku and Shidoku are played.\\
+
+Sudoku is a game played on a $9\times 9$ Latin square in which every row, column, and every one of the nine $3\times 3$ subgrids that partition the $9\times 9$ grid must contain the numbers $1$ through $9$ only once. The game begins with some subset of the cells each containing a number, and the objective is the fill in the rest of the cells with the previous constraints in mind.\\
+
+Shidoku has essentially the same rules as Sudoku, but it is played on a $4\times 4$ grid where the regions are rows, columns, and $2\times 2$ grids that partition the larger grid. Additionally, Shidoku uses only the numbers $1, 2, 3,$ and $4$.\\
+
+One can imagine that there an astonishingly large quantity of Sudoku boards, and indeed there are 6,670,903,752,021,072,936,960 distinct Sudoku boards, as computed by Felgenhauer and Jarvis [1]. As such, computation on such boards is computationally intensive, and some questions have yet to be answered about Sudoku boards. For example, it is conjectured that a Sudoku board has a unique solution as long as at least 17 cells are filled out initially [3], but this is still an open problem.\\
+
+Due to the computational intensity associated with the general case of Sudoku, throughout this paper we will be working in the simpler case of the Shidoku board.
+
+\section{Representations of Shidoku Boards}
+
+There are a number of methods of representing a Shidoku board algebraically, but we will list two of particular interest.\\
+
+Perhaps the most na\" ive approach is to consider a variable for each cell, say $a_{ij}$ where $i$ represents the row and $j$ represents the column that $a_{ij}$ is in. Then there are a number of equations that must be satisfied. Firstly, $\prod_{k=1}^4 (a_{ij} - k) = 0$ for every pair $(i,j),$ as it must be one of $1,2,3,$ or $4.$ Additionally, $\sum_{i=1}^4 a_{ij} = 10$ and $\prod_{i=1}^4 a_{ij} = 24$, as the values occurring in a column must be each of  $1,2,3,$ or $4$, which have this propety. One can check that these three equations guarantee that that the tuple $(a_{ij})_{i=1}^4$ is some a permutation of $(1,2,3,4)$. Similar equations can be imposed on the rows and $2\times 2$ partitions of the grid. In total, this gives you $40$ polynomial equations in $16$ variables.\\
+
+A perhaps more interesting representation is one we shall call the Boolean representation. Assign to the cell in the $i$th row and $j$th column, which we shall denote $a_{ij}$, four Boolean variables $\{a_{ijk}\}_{k=1}^4$ for which $a_{ijk} = 1$ if an only if the cell contains the value $k$, otherwise the variable equals $0$. To represent this constraint algebraically, begin by noting that for any tuple $(i,j,k)$ we have $a_{ijk}(a_{ijk}-1) = 0$. This simplifies future equations considerably, as $a_{ijk}^2 = a_{ijk}$, which implies that our system will be linear in each variable. Since only one of the Boolean variables associated to each cell can be nonzero, we find that $\sum_{k=1}^4 a_{ijk} = 1$. Finally we impose that for any two cells in the same row, column, or $2\times 2$ cell of the partition, say $a_{ij}$ and $a_{i'j'}$ we have $\sum a_{ijk}a_{i'j'k} = 0$, as they cannot be the same value. This gives us a total of 136 equations in 64 variables.\\
+
+The Boolean representation has a number of advantages over the na\" ive approach, which require more time than we have in this paper, but if interested, the reader should look at Computing Groebner bases in the Boolean setting with applications to counting by Bernasconi et al. [4]
+
+\section{Counting the Number of Shidoku Boards via Gr\" obner bases}
+Counting the number of Shidoku boards is not particularly difficult using bruteforce methods, but using solely bruteforce methods is not computationally feasible in the case of a Sudoku board. So we will go through the computation on a Shidoku board, noting that once could do a very similar computation in the general case.\\
+
+We will perform computations using the na\" ive representation under lex ordering $a_{ij} < a_{i'j'}$ when $i < i'$ or when $i = i'$ and $j < j'$, but with minor alterations, any reasonable representation can be made to work. We may rewrite all the defining equations of the representation so that we have some polynomials each equal to 0. Then, we can take the ideal $I\subseteq \mathbb{Q} [a_{ij}]_{1\leq i,j\leq4}$ generated by these polynomials. We may then calculate the Gr\" obner basis for $I$, which we will call $G = \{g_1,\ldots g_{17}\}.$ In general, this Gr\" obner basis is finite, but with given hints there may be more or fewer equations. Due to our ordering, the leading terms of the first sixteen polynomials will be some power of $a_{11}, a_{12}, \ldots, a_{44}$, respectively. Denote the power associated to $a_{ij}$ by $k_{ij}$.\\
+
+Our goal is to count the number of Shidoku boards; hence, we would like to count the number of solutions to the system $g_1 = 0, g_2 = 0, \ldots, g_17 = 0.$ Recall that $\mathbb{Q} [a_{ij}]_{1\leq i,j\leq4}/I$ has a basis consisting of monomials that are not divisible by any of the leading terms of $g_1, \ldots, g_17,$ and moreover, dim $\mathbb{Q} [a_{ij}]_{1\leq i,j\leq4}/I = \mid V(I)\mid$, and so we need only calculate this dimension by counting the number of monimials that are not divisible by the leading terms of the Gr\" obner basis. This computation isn't terribly difficult, but as it's not terribly enlightening we will merely remark that the computation results in 288 different Shidoku boards.
+
+\section{Solving a Shidoku Board}
+We wrap things up by finally using Gr\" obner bases to solve a Shidoku board. finding a solution is relatively straightforward at this point. Simply take the ideal $I + J$, where $I$ is the ideal generated by the defining polynomials and $J$ is the polynomials that represent cells that have already been filled out, e.g. $a_{11} - 2$ would be the polynomial representation of the upper left corner having been filled in with a 2. Then we should get a Gr\" obner basis consisting of sixteen polynomials in upper triangular form, which allows us to use back substituion to find the values for all the variables, solving the board. Note that this is not the most efficient method of finding a solution, and if the reader is interested in one of the most efficient algorithms for solving Shidoku and Sudoku boards, we recommend Knuth's Dancing Links [5].\\
+
+\section{References}
+\begin{itemize}
+\item [{[1]}]  B. Felgenhauer \& F. Jarvis, \textbf{Mathematics of Sudoku I}, \textit{Mathematical Spectrum}, 39, 2006, 15-22
+\item [{[2]}] Arnold E., Lucas S., Taalman L.: \textbf{Gr\" obner Basis Representations of Sudoku.} \textit{The College Mathematics Journal} 41(2): 101-112, 2010. DOI:
+10.4169/074683410x480203. 
+\item [{[3]}] Forrow, Aden, and John R. Schmitt. "\textbf{Approaching the minimum number of clues Sudoku problem via the polynomial method}." (2013).
+\item [{[4]}] A. Bernasconi, B. Codenotti, V. Crespi \& G. Resta, \textbf{Computing Groebner bases in the Boolean setting with applications to counting}, in: G. Italiano \& S. Orlando, eds., \textit{Proceedings of the Workshop on Algorithm Engineering (WAE'97)}, University of Venice, Venice, September 11-13, 1997, 209-218.
+\item [{[5]}] D.E. Knuth, \textbf{Dancing Links}, in: J. Davies, B. Roscoe \& J. Woodcock, \textit{Millennial Perspectives in Computer Science: Processings of the 1999 Oxford-Microsoft Symposium in Honour of Sir Tony Hoare}, Palgrave, 2000, 187-214.
+\end{itemize}
+
+\end{document}
